@@ -1,5 +1,7 @@
 class ChatRoomsController < ApplicationController
 
+  before_filter :set_chat_room, only: [ :show, :destroy, :update]
+
   def index
     @chat_rooms = ChatRoom.all
   end
@@ -21,6 +23,10 @@ class ChatRoomsController < ApplicationController
   end
 
   private
+
+  def set_chat_room
+    @chat_room = ChatRoom.find_by(params[:id])
+  end
 
   def chat_room_params
     params.require(:chat_room).permit(:title)
