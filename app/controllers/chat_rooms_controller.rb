@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
 
-  before_filter :set_chat_room, only: [ :show, :destroy, :update]
+  before_filter :set_chat_room, only: [ :destroy, :update]
 
   def index
     @chat_rooms = ChatRoom.all
@@ -22,10 +22,14 @@ class ChatRoomsController < ApplicationController
 
   end
 
+  def show
+    @chat_room = ChatRoom.includes(:messages).find(params[:id])
+  end
+
   private
 
   def set_chat_room
-    @chat_room = ChatRoom.find_by(params[:id])
+    @chat_room = ChatRoom.find(params[:id])
   end
 
   def chat_room_params
